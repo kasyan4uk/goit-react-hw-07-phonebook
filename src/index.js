@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {App} from './components/App';
 import { ThemeProvider } from 'styled-components';
-import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import { theme } from './components/theme';
 import { Provider } from 'react-redux';
 import { store, persistor } from 'redux/store';
