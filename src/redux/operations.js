@@ -33,17 +33,6 @@ export const addContact = createAsyncThunk(
   }
 );
 
-export const editContact = createAsyncThunk(
-  'contacts/editContact',
-  async (contact, thunkAPI) => {
-    try {
-      const { data } = await axios.put(`/contacts/${contact.id}`, contact);
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
 
 export const removeContact = createAsyncThunk(
   'contacts/removeContact',
