@@ -31,8 +31,6 @@ ContactItem.propTypes = {
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  setModalData: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
 };
 
 export default ContactItem;
