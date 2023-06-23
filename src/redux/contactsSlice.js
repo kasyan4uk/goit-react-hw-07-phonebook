@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addContact,
-  editContact,
   fetchContacts,
   removeContact,
 } from './operations';
@@ -39,16 +38,6 @@ const contactsSlice = createSlice({
           isLoading: false,
           error: null,
           items: [...state.items, payload],
-        };
-      })
-      .addCase(editContact.fulfilled, (state, { payload }) => {
-        return {
-          ...state,
-          isLoading: false,
-          error: null,
-          items: state.items.map(contact =>
-            contact.id !== payload.id ? contact : payload
-          ),
         };
       })
       .addCase(removeContact.fulfilled, (state, { payload }) => {
