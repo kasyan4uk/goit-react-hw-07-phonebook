@@ -4,7 +4,7 @@ import { removeContact } from 'redux/operations';
 import { Item, Text, Button, BtnWrapper } from './ContactItem.styled';
 
 const ContactItem = props => {
-  const { id, name, number, setModalData, toggleModal } = props;
+  const { id, name, number,} = props;
 
   const dispatch = useDispatch();
 
@@ -14,15 +14,6 @@ const ContactItem = props => {
         {name}: {number}
       </Text>
       <BtnWrapper>
-        <Button
-          type="button"
-          onClick={() => {
-            toggleModal();
-            setModalData({ id, name, number });
-          }}
-        >
-          Edit
-        </Button>
         <Button
           type="button"
           onClick={() => {
