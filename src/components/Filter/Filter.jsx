@@ -1,24 +1,27 @@
-import { BsSearch } from 'react-icons/bs';
-import { Input, LabelDescr } from './Filter.styled';
-import { LabelWrapper } from 'components/ContactForm/ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter } from 'redux/filter/filter-selectors';
-import { setFilter } from 'redux/filter/filter-slice';
+import { setFilter } from 'redux/filterSlice';
+import { selectFilter } from 'redux/selectors';
+import { Label, Input, Span } from './Filter.styled';
 
-export const Filter = () => {
-  const filter = useSelector(getFilter);
+const Filter = () => {
   const dispatch = useDispatch();
+  const filterValue = useSelector(selectFilter);
 
-  const changeFilter = e => {
-    dispatch(setFilter(e.target.value.toLowerCase().trim()));
+  const handleFilterChange = e => {
+    dispatch(setFilter(e.target.value));
   };
 
   return (
-    <LabelDescr>
-      <LabelWrapper>
-        <BsSearch size="16" /> Find contacts by name
-      </LabelWrapper>
-      <Input type="text" value={filter} onChange={changeFilter} placeholder="search" />
-    </LabelDescr>
+    <Label>
+      <Span>Find contacts by name</Span>
+      <Input
+        type="text"
+        name="filter"
+        value={filterValue}
+        onChange={handleFilterChange}
+      />
+    </Label>
   );
 };
+
+export default Filter;

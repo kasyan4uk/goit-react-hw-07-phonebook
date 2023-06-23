@@ -1,32 +1,44 @@
-//import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux';
-import { GlobalStyle } from './GlobalStyle';
-import { Layout } from './Layout/Layout';
-import { Section } from './Section/Section';
-import { ContactForm } from './ContactForm/ContactForm';
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ContactList } from './ContactList/ContactList';
-import { Header } from './Header/Header';
-import { Filter } from './Filter/Filter';
-import { getContacts } from 'redux/contacts/contacts-selectors';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Oval as Spiner } from 'react-loader-spinner';
+import { fetchContacts } from 'redux/operations';
+import { selectError, selectIsLoading } from 'redux/selectors';
+import { Container, MainTitle, Title } from './App.styled';
+import ContactForm from './ContactForm';
+import ContactList from './ContactList';
+import Filter from './Filter';
+import ErrorMessage from './ErrorMessage';
 
-export const App = () => {
-  const contacts = useSelector(getContacts);
+function App() {
+  const dispatch = useDispatch();
+  const error = useSelector(selectError);
+  const isLoading = useSelector(selectIsLoading);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
-    <Layout>
-      <Section title="Phonebook">
-        <ContactForm />
-        {contacts.length > 0 && (
-          <>
-            <Header title="Contacts" />
-            <Filter />
-            <ContactList />
-          </>
+    <Container>
+      <MainTitle>Phonebook</MainTitle>
+      <ContactForm />
+      <Title>
+        Contacts
+        {isLoading && (
+          <Spiner
+            height={25}
+            width={25}
+            color="#4fa94d"
+            visible={true}
+            ariaLabel="oval-loading"
+            strokeWidth={7}
+          />
         )}
-      </Section>
-      <ToastContainer />
-      <GlobalStyle />
-    </Layout>
-  )
-};
+      </Title>
+      <Filter />
+      {error ? <ErrorMessage /> : <ContactList />}
+    </Container>
+  );
+}
+
+export default App;

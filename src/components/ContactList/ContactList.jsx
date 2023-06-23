@@ -1,32 +1,38 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { IoPersonRemove } from 'react-icons/io5';
-import { Btn, Item, List } from './ContactList.styled';
-import { deleteContact } from 'redux/contacts/contacts-slice';
-import { getFilteredContacts } from 'redux/contacts/contacts-selectors';
+import { useState } from 'react';
+import { List } from './ContactList.styled';
+import ContactItem from '../ContactItem';
+import Modal from '../Modal';
+import { useSelector } from 'react-redux';
+import { selectFilteredContacts } from 'redux/selectors';
 
-export const ContactList = () => {
-  const filteredContacts = useSelector(getFilteredContacts);
+function ContactList() {
+  const [modalData, setModalData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const filteredContacts = useSelector(selectFilteredContacts);
 
-  const dispatch = useDispatch();
-
-  const onDeleteContact = contactId => {
-    dispatch(deleteContact(contactId));
+  const toggleModal = () => {
+    setIsModalOpen(prevState => !prevState);
   };
 
   return (
-    <List>
-      {filteredContacts.map(({ name, number, id }) => {
-        return (
-          <Item key={id}>
-            <span>{name}:</span>
-            <span>{number}</span>
-            <Btn type="button" onClick={() => onDeleteContact(id)}>
-              <IoPersonRemove size="14" />
-            </Btn>
-          </Item>
-        );
-      })}
-    </List>
+    <>
+      <List>
+        {filteredContacts.map(({ name, number, id }) => {
+          return (
+            <ContactItem
+              key={id}
+              id={id}
+              name={name}
+              number={number}
+              setModalData={setModalData}
+              toggleModal={toggleModal}
+            />
+          );
+        })}
+      </List>
+      {isModalOpen && <Modal modalData={modalData} toggleModal={toggleModal} />}
+    </>
   );
-};
+}
 
+export default ContactList;
